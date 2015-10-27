@@ -38,7 +38,8 @@ include:
   file.symlink:
   - target: /srv/salt/env/{{ master.system.environment }}/{{ formula_name }}/metadata/service
   - require:
-    - git: reclass_data_source
+   #Why the hell?
+   #- git: reclass_data_source
     - file: /srv/salt/reclass/classes/service
 
 {%- endfor %}
@@ -59,7 +60,8 @@ include:
   - target: /usr/share/salt-formulas/env/_formulas/{{ formula_name }}/metadata/service
   {%- endif %}
   - require:
-    - git: reclass_data_source
+   #Why the hell?
+   #- git: reclass_data_source
     - file: /srv/salt/reclass/classes/service
 
 {%- endif %}
