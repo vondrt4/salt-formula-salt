@@ -10,7 +10,7 @@ include:
   file.directory:
   - makedirs: true
   - require:
-    - pkg: salt_master_packages
+    - {{ master.install_state }}
 
 {%- for name, environment in master.environment.iteritems() %}
 
@@ -18,7 +18,6 @@ include:
   file.symlink:
   - target: /srv/salt/minion_keys
   - require:
-    - file: /srv/salt/env/{{ name }}
     - file: /srv/salt/minion_keys
 
 {%- endfor %}

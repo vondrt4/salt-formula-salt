@@ -1,0 +1,19 @@
+{%- from "salt/map.jinja" import master with context %}
+{%- for minion_name, minion in master.ssh.get('minion', {}).iteritems() %}
+{{ minion_name }}:
+  host: {{ minion.host }}
+  user: {{ minion.user }}
+  {%- if minion.password is defined %}
+  passwd: {{ minion.password }}
+  {%- endif %}
+  {%- if minion.key_file is defined %}
+  priv: {{ minion.key_file }}
+  {%- endif %}
+  {%- if minion.get('sudo', False) %}
+  sudo: True
+  tty: True
+  {%- endif %}
+{%- endfor %}
+{#-
+  vim: syntax=jinja
+-#}

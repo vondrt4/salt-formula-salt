@@ -4,8 +4,12 @@
 {%- if master.pillar.engine == 'salt' %}
 
 include:
+{%- if master.pillar.source.engine == "git" %}
 - git.client
+{%- endif %}
 - salt.master.service
+
+{%- if master.pillar.source.engine == "git" %}
 
 {{ master.pillar.source.address }}:
   git.latest:
@@ -15,11 +19,17 @@ include:
     - file: /srv/salt/env
     - pkg: git_packages
 
+{%- if master.system is defined %}
+
 /srv/salt/env/{{ master.system.environment }}/top.sls:
   file.symlink:
   - target: /srv/salt/pillar/files_top.sls
   - require:
     - file: /srv/salt/env/{{ master.system.environment }}
+
+{%- endif %}
+
+{%- endif %}
 
 {%- elif master.pillar.engine == 'reclass' %}
 
@@ -27,8 +37,9 @@ include:
 - reclass.storage.data
 
 /srv/salt/reclass/classes/service:
-  file.directory
-
+  file.directory:
+  - require:
+    - file: reclass_data_dir
 
 {%- if master.system is defined %}
 
@@ -38,8 +49,6 @@ include:
   file.symlink:
   - target: /srv/salt/env/{{ master.system.environment }}/{{ formula_name }}/metadata/service
   - require:
-   #Why the hell?
-   #- git: reclass_data_source
     - file: /srv/salt/reclass/classes/service
 
 {%- endfor %}
@@ -60,8 +69,6 @@ include:
   - target: /usr/share/salt-formulas/env/_formulas/{{ formula_name }}/metadata/service
   {%- endif %}
   - require:
-   #Why the hell?
-   #- git: reclass_data_source
     - file: /srv/salt/reclass/classes/service
 
 {%- endif %}
@@ -70,8 +77,7 @@ include:
 
 {%- endfor %}
 
-{%-endif %}
-
+{%- endif %}
 
 {%- endif %}
 
