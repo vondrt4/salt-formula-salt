@@ -17,6 +17,9 @@ salt_minion_grains_file:
   - name: cat /etc/salt/grains.d/* > /etc/salt/grains
   - require:
     - file: salt_minion_grains_dir
+  - watch_in:
+    - service: salt_minion_service
+
 
 /etc/salt/minion.d/minion.conf:
   file.managed:
