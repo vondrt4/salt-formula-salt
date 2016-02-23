@@ -26,7 +26,6 @@ salt_master_{{ master.system.environment }}_{{ grain_name }}_grain_source:
   - target: /srv/salt/env/{{ master.system.environment }}/_extra/grain_{{ grain_name }}
   - rev: {{ grain.revision }}
   - require:
-    - file: salt_env_{{ master.system.environment }}_dirs
     - pkg: git_packages
 
 /srv/salt/env/{{ master.system.environment }}/_grains/{{ grain_name }}.py:
@@ -49,7 +48,6 @@ salt_master_{{ master.system.environment }}_{{ state_name }}_state_source:
   - target: /srv/salt/env/{{ master.system.environment }}/_extra/state_{{ state_name }}
   - rev: {{ state.revision }}
   - require:
-    - file: salt_env_{{ master.system.environment }}_dirs
     - pkg: git_packages
 
 /srv/salt/env/{{ master.system.environment }}/_modules/{{ state_name }}.py:
@@ -78,7 +76,6 @@ salt_master_{{ master.system.environment }}_{{ formula_name }}_formula_source:
   - target: /srv/salt/env/{{ master.system.environment }}/{{ formula_name }}
   - rev: {{ formula.revision }}
   - require:
-    - file: salt_env_{{ master.system.environment }}_dirs
     - pkg: git_packages
 
 {%- endif %}
@@ -93,7 +90,6 @@ salt_master_{{ master.system.environment }}_returners:
   - target: /srv/salt/env/{{ master.system.environment }}/_returners
   - rev: {{ master.system.returners.revision }}
   - require:
-    - file: salt_env_{{ master.system.environment }}_dirs
     - pkg: git_packages
 
 {%- endif %}
